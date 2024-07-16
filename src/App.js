@@ -20,39 +20,39 @@ function App() {
         <button type="submit">Add new transcation</button>
       </form>
 
-      <div className="transcations">
-        <div className="transcation">
+      <div className="transactions">
+        <div className="transaction">
           <div className="left">
-            <div className="name"> New Samsung TV</div>
+            <div className="name">New Samsung TV</div>
             <div className="description">It was time for new TV</div>
           </div>
 
           <div className="right">
-            <div className="price">$500</div>
+            <div className="price red">-$500</div>
             <div className="datetime">2022-12-18 15:45</div>
           </div>
         </div>
 
-        <div className="transcation">
+        <div className="transaction">
           <div className="left">
-            <div className="name"> New Samsung TV</div>
+            <div className="name">Gig job new website</div>
             <div className="description">It was time for new TV</div>
           </div>
 
           <div className="right">
-            <div className="price">$500</div>
+            <div className="price green">+$400</div>
             <div className="datetime">2022-12-18 15:45</div>
           </div>
         </div>
 
-        <div className="transcation">
+        <div className="transaction">
           <div className="left">
-            <div className="name"> New Samsung TV</div>
+            <div className="name">Iphone</div>
             <div className="description">It was time for new TV</div>
           </div>
 
           <div className="right">
-            <div className="price">$500</div>
+            <div className="price red">-$900</div>
             <div className="datetime">2022-12-18 15:45</div>
           </div>
         </div>
