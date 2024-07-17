@@ -1,10 +1,21 @@
 import "./App.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
   const [name, setName] = useState("");
   const [datetime, setDateTime] = useState("");
   const [description, setDescription] = useState("");
+  const [transactions, setTransactions] = useState([]);
+
+  useEffect(() => {
+    getTransactions().then(setTransactions);
+  }, [transactions]);
+
+  async function getTransactions() {
+    const url = process.env.REACT_APP_API_URL + "/transactions";
+    const response = await fetch(url);
+    return await response.json();
+  }
 
   function addNewTransaction(ev) {
     ev.preventDefault();
@@ -30,10 +41,19 @@ function App() {
     });
   }
 
+  let balance = 0;
+  for (const transaction of transactions) {
+    balance += transaction.price;
+  }
+  balance = balance.toFixed(2);
+  const fraction = balance.split(".")[1];
+  balance = balance.split(".")[0];
+
   return (
     <main>
       <h1>
-        $400<span>.00</span>
+        ${balance}
+        <span>{fraction}</span>
       </h1>
 
       <form onSubmit={addNewTransaction}>
@@ -42,7 +62,7 @@ function App() {
             type="text"
             value={name}
             onChange={(ev) => setName(ev.target.value)}
-            placeholder={"+200 new samsung tv"}
+            placeholder={"+200 new SamSung TV"}
           ></input>
           <input
             value={datetime}
@@ -64,41 +84,26 @@ function App() {
       </form>
 
       <div className="transactions">
-        <div className="transaction">
-          <div className="left">
-            <div className="name">New Samsung TV</div>
-            <div className="description">It was time for new TV</div>
-          </div>
+        {transactions.length > 0 &&
+          transactions.map((transaction) => (
+            <div key={transaction._id} className="transaction">
+              <div className="left">
+                <div className="name">{transaction.name}</div>
+                <div className="description">{transaction.description}</div>
+              </div>
 
-          <div className="right">
-            <div className="price red">-$500</div>
-            <div className="datetime">2022-12-18 15:45</div>
-          </div>
-        </div>
-
-        <div className="transaction">
-          <div className="left">
-            <div className="name">Gig job new website</div>
-            <div className="description">It was time for new TV</div>
-          </div>
-
-          <div className="right">
-            <div className="price green">+$400</div>
-            <div className="datetime">2022-12-18 15:45</div>
-          </div>
-        </div>
-
-        <div className="transaction">
-          <div className="left">
-            <div className="name">Iphone</div>
-            <div className="description">It was time for new TV</div>
-          </div>
-
-          <div className="right">
-            <div className="price red">-$900</div>
-            <div className="datetime">2022-12-18 15:45</div>
-          </div>
-        </div>
+              <div className="right">
+                <div
+                  className={
+                    "price " + (transaction.price < 0 ? "red" : "green")
+                  }
+                >
+                  {transaction.price}
+                </div>
+                <div className="datetime">{transaction.datetime}</div>
+              </div>
+            </div>
+          ))}
       </div>
     </main>
   );
